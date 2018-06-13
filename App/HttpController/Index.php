@@ -105,23 +105,24 @@ class Index extends Controller
             'Host' => "dns.google.com",
             "User-Agent" => 'php',
             'Accept' => 'application/json',
-            'Accept-Encoding' => 'gzip',
+//            'Accept-Encoding' => 'gzip', // 動かぬ環境がある、ビルドの問題?
         ]);
         $cli->set(['timeout' => 1]);
         $encoded_host = urlencode($host);
         $cli->get("/resolve?name={$encoded_host}&type=MX");
+//        var_dump($cli->body);
         $mx_records = json_decode($cli->body, true);
         $cli->get("/resolve?name={$encoded_host}&type=A");
+//        var_dump($cli->body);
         $a_records = json_decode($cli->body, true);
 
         $cli->close();
-
 
         if (isset($mx_records['Answer']) ||isset($a_records['Answer'])){
             Cache::set($prefix.$host, true, 3600);
             return true;
         }else{
-            Cache::set($prefix.$host, false, 3600);
+            Cache::set($prefix.$host, false, 3);
             return false;
         }
     }
