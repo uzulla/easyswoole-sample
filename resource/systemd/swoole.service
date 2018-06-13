@@ -1,0 +1,16 @@
+[Unit]
+Description=swoole service
+After=network.target mysqld.service
+
+[Service]
+Type=simple
+LimitNOFILE=65535
+WorkingDirectory=/path/to/easyswoole-sample/
+ExecStart=/bin/sh -c "/path/to/easyswoole-sample/clearcache.sh && /usr/bin/php /path/to/easyswoole-sample/easyswoole start --pid-/path/to/easyswoole-sample/Log/pid.pid"
+ExecReload=/bin/sh -c "/path/to/easyswoole-sample/clearcache.sh && /bin/kill -USR1 `cat /path/to/easyswoole-sample/Log/pid.pid`"
+ExecStop=/usr/bin/php /path/to/easyswoole-sample/easyswoole stop --pid-/path/to/easyswoole-sample/Log/pid.pid
+Restart=always
+User=jhondoe
+
+[Install]
+WantedBy=multi-user.target
