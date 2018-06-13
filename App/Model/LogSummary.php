@@ -10,9 +10,17 @@ class LogSummary
     static $num = 0;
 
     /**
-     * キャッシュ上のサマリを保存する
+     * キャッシュ上にサマリを保存する
      */
     public static function refresh()
+    {
+        Cache::set('count', static::count());
+    }
+
+    /**
+     * キャッシュ上のサマリを保存する
+     */
+    public static function count()
     {
         /** @var \PDO $pdo */
         $pdo = Db::getPDO();
@@ -20,9 +28,9 @@ class LogSummary
         $stmt->execute();
 
         $row = $stmt->fetch(\PDO::FETCH_ASSOC);
-
-        Cache::set('count', $row['count']);
+        return $row['count'];
     }
+
 
     /**
      * キャッシュ上のサマリを取得する
