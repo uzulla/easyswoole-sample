@@ -15,16 +15,16 @@ class EmailValidator
     function isValidEmail($email)
     {
         // filter_varを使う事に様々な議論はあるが、まあ…。
-        if(filter_var($email, FILTER_VALIDATE_EMAIL)===false){
-            echo "fail at filter_var".PHP_EOL;
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+            echo "fail at filter_var" . PHP_EOL;
             var_dump($email);
             return false;
         }
 
         // 本当はもっとマシに書くけど、ここではまあ…。
         list($name, $domain) = explode("@", $email);
-        if(!$this->isProbablyExistsMailServer($domain)){
-            echo "fail at check domain".PHP_EOL;
+        if (!$this->isProbablyExistsMailServer($domain)) {
+            echo "fail at check domain" . PHP_EOL;
             return false;
         }
 
@@ -43,11 +43,11 @@ class EmailValidator
     protected function isProbablyExistsMailServer($host)
     {
         $prefix = "iPEMS-";
-        if(SWOOLE) {
+        if (SWOOLE) {
             if (Cache::has($prefix . $host)) return Cache::get($prefix . $host);
         }
 
-        echo "isProbablyExistsMailServer cache miss".PHP_EOL;
+        echo "isProbablyExistsMailServer cache miss" . PHP_EOL;
 
         $dns_ip = static::getHostByNameWithCache("dns.google.com");
 
@@ -69,13 +69,13 @@ class EmailValidator
 
         $cli->close();
 
-        if (isset($mx_records['Answer']) ||isset($a_records['Answer'])){
-            if(SWOOLE) {
+        if (isset($mx_records['Answer']) || isset($a_records['Answer'])) {
+            if (SWOOLE) {
                 Cache::set($prefix . $host, true, 3600);
             }
             return true;
-        }else{
-            if(SWOOLE) {
+        } else {
+            if (SWOOLE) {
                 Cache::set($prefix . $host, false, 3);
             }
             return false;
@@ -92,14 +92,14 @@ class EmailValidator
      */
     protected function getHostByNameWithCache($host)
     {
-        $prefix="gHBNWC-";
-        if(SWOOLE) {
+        $prefix = "gHBNWC-";
+        if (SWOOLE) {
             if (Cache::has($prefix . $host)) return Cache::get($prefix . $host);
         }
-        echo "getHostByNameWithCache cache miss".PHP_EOL;
+        echo "getHostByNameWithCache cache miss" . PHP_EOL;
 
         $ip = gethostbyname($host);
-        if(SWOOLE) {
+        if (SWOOLE) {
             Cache::set($prefix . $host, $ip, 3600);
         }
         return $ip;

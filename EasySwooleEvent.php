@@ -24,18 +24,18 @@ Class EasySwooleEvent implements EventInterface
 
     public static function frameInitialize(): void
     {
-        echo "frameInitialize".PHP_EOL;
+        echo "frameInitialize" . PHP_EOL;
         date_default_timezone_set('Asia/Tokyo');
 
         $fileSystemOptions = [
-            'expire'        => 0,     // 缓存过期时间
-            'cache_subdir'  => true,  // 开启子目录存放
-            'prefix'        => '',    // 缓存文件后缀名
-            'path'          => __DIR__.'/cache',    // 缓存文件储存路径
-            'hash_type'     => 'md5', // 文件名的哈希方式
+            'expire' => 0,     // 缓存过期时间
+            'cache_subdir' => true,  // 开启子目录存放
+            'prefix' => '',    // 缓存文件后缀名
+            'path' => __DIR__ . '/cache',    // 缓存文件储存路径
+            'hash_type' => 'md5', // 文件名的哈希方式
             'data_compress' => false, // 启用缓存内容压缩
-            'thread_safe'   => false, // 线程安全模式
-            'lock_timeout'  => 3000,  // 文件最长锁定时间(ms)
+            'thread_safe' => false, // 线程安全模式
+            'lock_timeout' => 3000,  // 文件最长锁定时间(ms)
         ];
         $FilesConnector = new Files($fileSystemOptions);
         Cache::init($FilesConnector);
@@ -45,7 +45,7 @@ Class EasySwooleEvent implements EventInterface
 
     public static function mainServerCreate(ServerManager $server, EventRegister $register): void
     {
-        echo "mainServerCreate".PHP_EOL;
+        echo "mainServerCreate" . PHP_EOL;
 //        var_dump(debug_backtrace());
 
         // ワーカー起動時に、「サマリを定期的に集計する」サービスを登録
