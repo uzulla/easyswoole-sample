@@ -40,6 +40,7 @@ Class EasySwooleEvent implements EventInterface
         $FilesConnector = new Files($fileSystemOptions);
         Cache::init($FilesConnector);
 
+        define("SWOOLE", true);
     }
 
     public static function mainServerCreate(ServerManager $server, EventRegister $register): void
