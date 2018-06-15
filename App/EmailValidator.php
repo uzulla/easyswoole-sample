@@ -109,6 +109,7 @@ class EmailValidator
         echo "getHostByNameWithCache cache miss" . PHP_EOL;
 
         $ip = gethostbyname($host);
+        echo "getHostByNameWithCache {$host} is {$ip}" . PHP_EOL;
         Cache::set($prefix . $host, $ip, 3600);
         return $ip;
     }
