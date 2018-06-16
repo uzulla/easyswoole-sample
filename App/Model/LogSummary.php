@@ -18,7 +18,7 @@ class LogSummary
     }
 
     /**
-     * キャッシュ上のサマリを保存する
+     * DBからログ件数を取得する
      */
     public static function count()
     {
